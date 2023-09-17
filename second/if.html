@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bai_Signup</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #f3f7fb;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .form-label {
+            font-weight: bold;
+        }
+        .btn-primary {
+            background-color: #ff6b6b;
+            border-color: #ff6b6b;
+        }
+        .btn-primary:hover {
+            background-color: #ff4141;
+            border-color: #ff4141;
+        }
+    </style>
+    <script>
+        function showAadharOrPanInput() {
+            var selectedOption = document.getElementById("aadharOrPan").value;
+            var aadharInput = document.getElementById("aadharInput");
+            var panInput = document.getElementById("panInput");
+
+            if (selectedOption === "aadhar") {
+                aadharInput.style.display = "block";
+                panInput.style.display = "none";
+            } else if (selectedOption === "pan") {
+                panInput.style.display = "block";
+                aadharInput.style.display = "none";
+            } else {
+                aadharInput.style.display = "none";
+                panInput.style.display = "none";
+            }
+        }
+
+        function validateAadharLength() {
+            var aadharNumber = document.getElementById("aadharNumber").value;
+            if (aadharNumber.length > 16) {
+                document.getElementById("aadharNumber").value = aadharNumber.slice(0, 16);
+            }
+        }
+
+        function validatePanLength() {
+            var panNumber = document.getElementById("panNumber").value;
+            if (panNumber.length > 10) {
+                document.getElementById("panNumber").value = panNumber.slice(0, 10);
+            }
+        }
+        
+    </script>
+</head>
+<body>
+    
+<?php require 'partials/_nav.php' ?>
+
+    <div class="container">
+
+        <h1 class="text-center mb-4">Hello Bai<br>Signup to our Website!</h1>
+
+        <form action="/second/signup.php" method="post">
+            
+            <!-- Name -->
+            <div class="mb-3">
+                <label for="bname" class="form-label">Enter your Name</label>
+                <input type="text" class="form-control" id="bname" name="bname" placeholder="Enter your Fullname" aria-describedby="emailHelp" required>
+            </div>
+
+            <!-- Mobile Number -->
+            <div class="mb-3">
+                <label for="bnumber" class="form-label">Contact No.</label>
+                <input type="number" class="form-control" id="bphoneno" name="bphoneno" placeholder="Enter your 10 digit Mobile Number" aria-describedby="emailHelp" required>
+            </div>
+
+            <!-- Aadhar Card or PAN Card option -->
+            <div class="mb-3">
+                <label for="aadharOrPan" class="form-label">Aadhar Card or PAN Card</label>
+                <select class="form-select" id="aadharOrPan" name="aadharOrPan" onchange="showAadharOrPanInput()" required>
+                    <option value="" selected disabled>Select an option</option>
+                    <option value="aadhar">Aadhar Card</option>
+                    <option value="pan">PAN Card</option>
+                </select>
+            </div>
+
+            <!-- Aadhar Card Input -->
+            <div class="mb-3" id="aadharInput" style="display: none;">
+                <label for="aadharNumber" class="form-label">Aadhar Card Number</label>
+                <input type="number" class="form-control" id="aadharNumber" name="aadharNumber" placeholder="Enter Aadhar Card Number" oninput="validateAadharLength() ">
+            </div>
+
+            <!-- PAN Card Input -->
+            <div class="mb-3" id="panInput" style="display: none;">
+                <label for="panNumber" class="form-label">PAN Card Number</label>
+                <input type="text" class="form-control" id="panNumber" name="panNumber" placeholder="Enter PAN Card Number" oninput="validatePanLength()">
+            </div>
+
+            <!-- Gender -->
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-select" id="gender" name="gender" required>
+                    <option value="" selected disabled>Select your gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <!-- marital status  -->
+            <div class="mb-3">
+                <label for="marital status " class="form-label">Marital Status </label>
+                <select class="form-select" id="marital_status " name="marital_status " required>
+                    <option value="" selected disabled>Select your Marital Status </option>
+                    <option value="single">Single</option>
+                    <option value="married">Married</option>
+                    <option value="engaged">Engaged</option>
+                    <option value="widowed">Widowed</option>
+                    <option value="divorsed">Divorsed</option>
+                </select>
+            </div>
+
+            <!-- Age -->
+            <div class="mb-3">
+                <label for="age" class="form-label">Age</label>
+                <input type="number" class="form-control" id="age" name="age" placeholder="Enter your age" required>
+            </div>
+
+            <!-- Email ID -->
+            <div class="mb-3">
+                <label for="bemail" class="form-label">Email ID (Optional)</label>
+                <input type="email" class="form-control" id="bemail" name="bemail" placeholder="Enter your existing Email-ID" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
+
+            <!-- State -->
+            <div class="mb-3">
+                <label for="state" class="form-label">State</label>
+                <select class="form-select" id="state" name="state" required>
+                    <option value="" selected disabled>Select your State </option>
+                    <option value="maharashtra">Maharashtra</option>
+                    <option value="gujarat">Gujarat</option>
+                    <option value="rajasthan">Rajasthan</option>
+                    <option value="andra_pradesh">Andra Pradesh</option>
+                    <option value="karnataka">Karnataka</option>
+                    <option value="telangana">Telangana</option>
+                    <option value="tamil_nadu">Tamil Nadu</option>
+                    <option value="west_bengal">West Bengal</option>
+                    <option value="madhya_pradesh">Madhya Pradesh</option>
+                    <option value="punjab">Punjab</option>
+                    <option value="bihar">Bihar</option>
+                </select>
+            </div>
+
+            <!-- City -->
+            <div class="mb-3">
+                <label for="bcity" class="form-label">Enter City</label>
+                <input type="text" class="form-control" id="bcity" name="bcity" placeholder="Enter your city" aria-describedby="emailHelp" required>
+            </div>
+
+            <!-- Username -->
+            <div class="mb-3">
+                <label for="busername" class="form-label">Enter your Username</label>
+                <input type="text" class="form-control" id="busername" name="busername" placeholder="Enter an unique username" aria-describedby="emailHelp" required>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="bpassword" class="form-label">Password</label>
+                <input type="password" class="form-control" id="bpassword" name="bpassword" placeholder="Enter an secure password" required>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="mb-3">
+                <label for="cbpassword" class="form-label">Confirm Password</label>
+                <input type="password" class="form-control" id="cbpassword" name="cbpassword" placeholder="Enter an secure password" required>
+                <div id="emailHelp" class="form-text">Make sure to type the same password</div>
+            </div>
+
+                <button type="submit" class="btn btn-primary">Signup</button>
+                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 
+                <button type="reset" class="btn btn-primary mx-2">Reset</button>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

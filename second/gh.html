@@ -1,0 +1,69 @@
+<?php
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    @$login = false;
+    @$ShowError = false;
+    @$EmailError = false;
+
+    include 'partials/_db_connect.php';
+
+    $emailOrUsername = $_POST["emailOrUsername"];
+    $password = $_POST["password"];
+
+    // Check if the input is a valid email
+    if (filter_var($emailOrUsername, FILTER_VALIDATE_EMAIL)) {
+        // If it's an email, search in both user and servant tables
+        $user_sql = "SELECT * FROM users_details WHERE email = '$emailOrUsername'";
+        $servant_sql = "SELECT * FROM servent_details WHERE b_email = '$emailOrUsername'";
+    } else {
+        // If it's not an email, search in both user and servant tables
+        $user_sql = "SELECT * FROM users_details WHERE username = '$emailOrUsername'";
+        $servant_sql = "SELECT * FROM servent_details WHERE b_username = '$emailOrUsername'";
+    }
+
+    // Attempt to log in as a user
+    $user_result = mysqli_query($conn, $user_sql);
+    $user_num = mysqli_num_rows($user_result);
+
+    if ($user_num == 1) {
+        $user_row = mysqli_fetch_assoc($user_result);
+        if (password_verify($password, $user_row['password'])) {
+            $login = true;
+
+            $name = $user_row['name'];
+
+            session_start();
+            $_SESSION['loggedin'] = true;
+            $_SESSION['email'] = $user_row['email'];
+            $_SESSION['name'] = $name;
+
+            header("location: welcome.php");
+        } else {
+            $ShowError = true;
+        }
+    } else {
+        // Attempt to log in as a servant
+        $servant_result = mysqli_query($conn, $servant_sql);
+        $servant_num = mysqli_num_rows($servant_result);
+
+        if ($servant_num == 1) {
+            $servant_row = mysqli_fetch_assoc($servant_result);
+            if (password_verify($password, $servant_row['b_password'])) {
+                $login = true;
+
+                $b_name = $servant_row['b_name'];
+
+                session_start();
+                $_SESSION['loggedin'] = true;
+                $_SESSION['b_email'] = $servant_row['b_email'];
+                $_SESSION['b_name'] = $b_name;
+
+                header("location: welcome_bai.php");
+            } else {
+                $ShowError = true;
+            }
+        } else {
+            $ShowError = true;
+        }
+    }
+}
+?>
